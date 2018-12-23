@@ -3,6 +3,7 @@ package Tests;
 import Commons.Site;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.asserts.SoftAssert;
 
@@ -10,9 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Configuration {
 
-    public WebDriver webDriver;
-    public WebDriverWait wait;
-    public Site site;
+    WebDriver webDriver;
+    Actions action;
+    WebDriverWait wait;
+    Site site;
     SoftAssert softAssert;
 
     public void setUp () {
@@ -27,5 +29,6 @@ public class Configuration {
         webDriver.manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
         wait = new WebDriverWait(webDriver,10,500);
         site = new Site(webDriver);
+        action = new Actions(webDriver);
     }
 }
