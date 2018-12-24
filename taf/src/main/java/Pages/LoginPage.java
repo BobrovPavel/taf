@@ -1,15 +1,10 @@
 package Pages;
 
 import Commons.Constants;
-import org.apache.tools.ant.taskdefs.Echo;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import java.util.concurrent.TimeUnit;
 
 public class LoginPage extends Base {
 
@@ -25,7 +20,6 @@ public class LoginPage extends Base {
     public By passportError = By.xpath("//div[contains(@class,'passport-Domik-Form-Error_active')]");
     public By passportErrorHelper = By.xpath("//a[contains(@class,'passport-Icon_error_help')]");
     public By diskLogo = By.xpath("//a[@class='logo__link logo__link_service'][@href='/client/disk']");
-
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -59,7 +53,7 @@ public class LoginPage extends Base {
         return webDriver.findElement(diskLoginButton);
     }
 
-    public WebElement getCheckbox () {
+    public WebElement getCheckbox() {
         return webDriver.findElement(checkbox);
     }
 
@@ -75,14 +69,27 @@ public class LoginPage extends Base {
         return webDriver.findElement(diskLogo);
     }
 
+    public LoginPage typeLogin(String login) {
+        getLoginField().sendKeys(login);
+        return this;
+    }
+
+    public LoginPage typePassword(String password) {
+        getPasswordField().sendKeys(password);
+        return this;
+    }
+
     public void clickOnSubmit() {
         getSubmitButton().click();
         // wait for spinner
         try {
             Thread.sleep(300);
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
         }
+    }
 
+    public void clickOnCheckbox() {
+        waitAndClick(getCheckbox());
     }
 
     public void clearAllFields() {
@@ -91,8 +98,9 @@ public class LoginPage extends Base {
     }
 
     public void login() {
-            waitAndClick(getDiskLoginButton());
-        if(webDriver.findElements(passportDomik).size() > 0) {
+        webDriver.manage().timeouts().implicitlyWait(300, TimeUnit.MILLISECONDS);
+        waitAndClick(getDiskLoginButton());
+        if (webDriver.findElements(passportDomik).size() > 0) {
             waitForClickable(getLoginField()).sendKeys(Constants.VALID_LOGIN);
             waitForClickable(getPasswordField()).sendKeys(Constants.VALID_PASSWORD);
             waitAndClick(getSubmitButton());
@@ -105,4 +113,11 @@ public class LoginPage extends Base {
         }
     }
 
+    public void waitDomikForm() {
+        webDriver.manage().timeouts().implicitlyWait(300, TimeUnit.MILLISECONDS);
+        while (webDriver.findElements(passportDomik).size() == 0) {
+            webDriver.manage().deleteAllCookies();
+            webDriver.navigate().refresh();
+        }
+    }
 }

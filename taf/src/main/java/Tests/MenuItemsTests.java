@@ -2,21 +2,21 @@ package Tests;
 
 import Commons.Constants;
 import Pages.Base;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
 
 public class MenuItemsTests extends Configuration {
 
     @DataProvider
     public Object[][] driveTabs() {
-        return new Object[][] {
-                {"recent", "recent"},
-                {"disk", "disk"},
-                {"photo", "photo"},
-                {"journal", "journal"},
-                {"mail", "mail"},
-                {"trash", "trash"},
+        return new Object[][]{
+                {"recent", "recent", site.diskPage().recentTabContentLocator},
+                {"disk", "disk", site.diskPage().fileTabContentLocator},
+                {"photo", "photo", site.diskPage().photoTabContentLocator},
+                {"journal", "journal", site.diskPage().historyTabContentLocator},
+                {"mail", "mail", site.diskPage().archiveTabContentLocator},
+                {"trash", "trash", site.diskPage().trashTabContentLocator},
         };
     }
 
@@ -32,10 +32,11 @@ public class MenuItemsTests extends Configuration {
         System.out.println(webDriver.getCurrentUrl());
     }
 
-    @Test (dataProvider = "driveTabs")
-    public void checkDriveTabs(String tabName, String urlName) {
+    @Test(dataProvider = "driveTabs")
+    public void checkDriveTabs(String tabName, String urlName, String val) {
         Base.waitAndClick(site.diskPage().getDiskTab(tabName));
         Assert.assertEquals(webDriver.getCurrentUrl(), Constants.getUriveTabsUrl(urlName));
+        Assert.assertTrue(webDriver.findElement(By.xpath(val)).isDisplayed());
     }
 
     @Test

@@ -11,11 +11,11 @@ public class Site {
         webDriver = driver;
     }
 
-    public LoginPage loginPage () {
+    public LoginPage loginPage() {
         return new LoginPage(webDriver);
     }
 
-    public DiskPage diskPage () {
+    public DiskPage diskPage() {
         return new DiskPage(webDriver);
     }
 }
