@@ -48,8 +48,6 @@ cmake-build-*/
 
 # IntelliJ
 out/
-test-output/
-test-output
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -124,9 +122,6 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
-### Test ###
-### Ignore all files that could be used to test your code and
-### you wouldn't want to push
 
 # Reference https://en.wikipedia.org/wiki/Metasyntactic_variable
 
@@ -182,18 +177,7 @@ buildNumber.properties
 *mies
 
 # Other names that would make sense
-*tests
-*testsdir
-*testsfile
-*testsfiles
-*test
-*testdir
-*testfile
-*testfiles
-*testing
-*testingdir
-*testingfile
-*testingfiles
+
 *temp
 *tempdir
 *tempfile
